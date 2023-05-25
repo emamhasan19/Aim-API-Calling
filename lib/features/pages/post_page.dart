@@ -27,21 +27,29 @@ class _PostPageState extends State<PostPage> {
   }
 
   Future<void> fetchPosts() async {
-    const url = 'https://jsonplaceholder.typicode.com/posts';
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    try {
+      const url = 'https://jsonplaceholder.typicode.com/posts';
+      final uri = Uri.parse(url);
+      final response = await http.get(uri);
 
-    if (response.statusCode == 200) {
-      setState(() {
-        final jsonData = jsonDecode(response.body);
-        posts = (jsonData as List)
-            .map((itemJson) => PostModel.fromJson(itemJson))
-            .toList();
-      });
-      ShowSnackBarMessage(context, 'Data fetched successfully!', "dark");
-    } else {
-      ShowSnackBarMessage(context,
-          'Failed to load data. HTTP status: ${response.statusCode}', "light");
+      if (response.statusCode == 200) {
+        setState(() {
+          final jsonData = jsonDecode(response.body);
+          posts = (jsonData as List)
+              .map((itemJson) => PostModel.fromJson(itemJson))
+              .toList();
+        });
+        ShowSnackBarMessage(context, 'Data fetched successfully!', "dark");
+      } else {
+        // ShowSnackBarMessage(
+        //     context,
+        //     'Failed to load data. HTTP status: ${response.statusCode}',
+        //     "light");
+        throw http.ClientException((response.statusCode).toString());
+      }
+    } catch (e) {
+      ShowSnackBarMessage(
+          context, 'Failed to load due to ${e.toString()} error', "light");
     }
   }
 

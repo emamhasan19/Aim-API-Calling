@@ -4,7 +4,7 @@ import 'package:api_calling/features/pages/details_page.dart';
 import 'package:api_calling/features/pages/post_page.dart';
 import 'package:flutter/material.dart';
 
-Route<dynamic> generateRoute(RouteSettings settings) {
+Route<dynamic>? generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case postPageRoute:
       return MaterialPageRoute(builder: (context) => const PostPage());
@@ -16,6 +16,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
 
     default:
-      return MaterialPageRoute(builder: (context) => const PostPage());
+      return null;
   }
 }
